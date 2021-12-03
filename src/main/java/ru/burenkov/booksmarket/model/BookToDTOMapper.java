@@ -6,4 +6,5 @@ import ru.burenkov.booksmarket.DTO.BookRequest;
 @Mapper(componentModel = "spring")
 public interface BookToDTOMapper {
     Book AddBookRequestToBook(BookRequest bookRequest);
+    Book EditBookRequestToBook(Long id,BookRequest bookRequest);
 }
