@@ -41,4 +41,12 @@ public class BookServiceImp implements BookService{
 
     }
 
+    @Override
+    public void editBook(Book book) {
+        if(!bookRepository.existsById(book.getId()))
+        {throw new BookNotFoundException("Book not found id = "+book.getId());}
+        BookEntity bookEntity = mapper.bookToBookEntity(book);
+        bookRepository.save(bookEntity);
+    }
+
 }

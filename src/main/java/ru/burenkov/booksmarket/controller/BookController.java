@@ -30,6 +30,10 @@ private final BookToDTOMapper mapper;
     bookService.addBook(mapper.AddBookRequestToBook(request));
 
 }
+@PutMapping("/{id}")
+    public void editBook(@PathVariable Long id, @RequestBody BookRequest request){
+    bookService.editBook(mapper.EditBookRequestToBook(id,request));
+}
 
 
 }
