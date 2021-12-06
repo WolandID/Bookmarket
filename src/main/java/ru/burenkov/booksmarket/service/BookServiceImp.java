@@ -6,7 +6,7 @@ import ru.burenkov.booksmarket.DAO.BookRepository;
 import ru.burenkov.booksmarket.entity.BookEntity;
 import ru.burenkov.booksmarket.exception.BookNotFoundException;
 import ru.burenkov.booksmarket.model.Book;
-import ru.burenkov.booksmarket.model.BookToEntityMapper;
+import ru.burenkov.booksmarket.mappers.BookToEntityMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +47,14 @@ public class BookServiceImp implements BookService{
         {throw new BookNotFoundException("Book not found id = "+book.getId());}
         BookEntity bookEntity = mapper.bookToBookEntity(book);
         bookRepository.save(bookEntity);
+    }
+
+    @Override
+    public void deleteBook(Book book) {
+        if(!bookRepository.existsById(book.getId()))
+        {throw new BookNotFoundException("Book not found id = "+book.getId());}
+        BookEntity bookEntity = mapper.bookToBookEntity(book);
+        bookRepository.delete(bookEntity);
     }
 
 }

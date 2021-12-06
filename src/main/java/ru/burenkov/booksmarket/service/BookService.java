@@ -9,4 +9,5 @@ public interface BookService {
     List<Book> getAllBooks();
     void addBook(Book book);
     void editBook(Book book);
+    void deleteBook(Book book);
 }
