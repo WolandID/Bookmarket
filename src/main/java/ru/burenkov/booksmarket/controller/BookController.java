@@ -21,7 +21,8 @@ private final BookToDTOMapper mapper;
     return bookService.getBookById(id);
     }
 @GetMapping
-    public List<Book> getAllBooks(){
+    public List<Book> getAllBooks(@RequestParam(required = false) String author){
+    if(author != null) return bookService.findAllByAuthor(author);
     return bookService.getAllBooks();
 }
 
