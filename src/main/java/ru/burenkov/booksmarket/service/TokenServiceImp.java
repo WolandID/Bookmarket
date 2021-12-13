@@ -19,6 +19,7 @@ public class TokenServiceImp implements TokenService{
     public boolean checkToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         JWTVerifier verifier = JWT.require(algorithm).build();
+
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
             if (!decodedJWT.getIssuer().equals("authenticator")) {
@@ -34,7 +35,7 @@ public class TokenServiceImp implements TokenService{
             log.error("Token is invalid: " + e.getMessage());
             return false;
         }
-        return true;
 
+        return true;
     }
 }
