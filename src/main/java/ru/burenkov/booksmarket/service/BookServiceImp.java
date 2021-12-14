@@ -8,14 +8,19 @@ import ru.burenkov.booksmarket.exception.BookNotFoundException;
 import ru.burenkov.booksmarket.model.Book;
 import ru.burenkov.booksmarket.mappers.BookToEntityMapper;
 
+import javax.print.StreamPrintService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
 public class BookServiceImp implements BookService{
+
     private final BookRepository bookRepository;
     private final BookToEntityMapper mapper;
+
     @Override
     public Book getBookById(Long id) {
         BookEntity bookEntity = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book not found id =" + id));
@@ -25,13 +30,9 @@ public class BookServiceImp implements BookService{
     @Override
     public List<Book> getAllBooks() {
         Iterable<BookEntity> iterable = bookRepository.findAll();
-        ArrayList<Book> books = new ArrayList<>();
-        for (BookEntity bookEntity:iterable
-             ) {
-            books.add(mapper.bookEntityToBook(bookEntity));
-            
-        }
-        return books;
+        return StreamSupport.stream(iterable.spliterator(),false)
+                .map(mapper::bookEntityToBook)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -60,12 +61,9 @@ public class BookServiceImp implements BookService{
     @Override
     public List<Book> findAllByAuthor(String author) {
         Iterable<BookEntity> iterable = bookRepository.findAllByAuthorContaining(author);
-        ArrayList<Book> books = new ArrayList<>();
-        for (BookEntity bookEntity:iterable
-             ) {
-            books.add(mapper.bookEntityToBook(bookEntity));
-        }
-        return books;
+        return StreamSupport.stream(iterable.spliterator(),false)
+                .map(mapper::bookEntityToBook)
+                .collect(Collectors.toList());
     }
 
 }
